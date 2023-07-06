@@ -7,13 +7,13 @@
     ansible_httpapi_validate_certs: False
     ansible_httpapi_port: 443
   tasks:
-  - name: read csv for firewalls
+  - name: Read CSV file for devices to add
     read_csv:
-      path: "variables-2.csv"
+      path: "device-list.csv"
     register: csv_content
   - name: read metavariables
     read_csv:
-      path: "metavariables2.csv"
+      path: "metavars.csv"
     register: csv_content2
   - name: Print CSV contents for firewalls
     debug:
