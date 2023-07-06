@@ -1,0 +1,3 @@
+﻿item,group,device_blueprint,name,platform_name,prefer_img_version,template_group,sn,platform,os_type,os_ver,patch,desc,mr
+A,FGT-GROUP-NAME,BLPRINT-NAME,FGT-FW1,Fortigate-60F,7.2.5-b1517,TemplateGroup,SerialNumber,fos,fos,7,1,Fortigate branch 1,2
+B,FGT-GROUP-NAME,BLPRINT-NAME,FGT-FW2,Fortigate-60F,7.2.5-b1517,TemplateGroup,SerialNumber,fos,fos,7,1,Fortigate branch 2,2
