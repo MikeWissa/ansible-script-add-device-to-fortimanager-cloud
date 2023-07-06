@@ -1,0 +1,79 @@
+- hosts: fortimanagers
+  collections:
+   - fortinet.fortimanager
+  connection: httpapi
+  vars:
+    ansible_httpapi_use_ssl: True
+    ansible_httpapi_validate_certs: False
+    ansible_httpapi_port: 443
+  tasks:
+  - name: read csv for firewalls
+    read_csv:
+      path: "variables-2.csv"
+    register: csv_content
+  - name: read metavariables
+    read_csv:
+      path: "metavariables2.csv"
+    register: csv_content2
+  - name: Print CSV contents for firewalls
+    debug:
+      var: csv_content.list
+  - name: Print CSV contents for metavariables
+    debug:
+      var: csv_content2.list
+  - name: Generate Access Token From FortiCloud Auth Server.
+    uri:
+      url: https://customerapiauth.fortinet.com/api/v1/oauth/token/
+      method: POST
+      body_format: json
+      return_content: true
+      headers:
+        Content-Type: application/json
+      body: '{"username": "{{ FORTICLOUD_APIID }}", "password": "{{ FORTICLOUD_PASSWD }}", "client_id": "FortiManager", "grant_type": "password"}'
+    register: tokeninfo
+  - name: Add metavariables
+    fmgr_fmg_variable:
+      bypass_validation: False
+      workspace_locking_adom: adom
+      workspace_locking_timeout: 300
+      enable_log: True
+      forticloud_access_token: '{{ tokeninfo.json.access_token }}'
+      adom: root
+      state: present
+      fmg_variable:
+          dynamic_mapping:
+            -
+              _scope:
+                -
+                  name: "{{ item.firewall }}"
+                  vdom: "{{ item.vdom }}"
+              value: "{{ item.variablevalue }}"
+          name: "{{ item.variablename }}"
+    loop: "{{ csv_content2.list }}"
+  - name: Add a device to the Device Manager database.
+    fmgr_dvm_cmd_add_device:
+      bypass_validation: true
+      enable_log: True
+      forticloud_access_token: '{{ tokeninfo.json.access_token }}'
+      dvm_cmd_add_device:
+          adom: root
+          device:
+            mgmt_mode: fmg
+            device action: add_model
+            platform_str: "{{ item.platform_name }}"
+            name: "{{ item.name }}"
+            sn: "{{ item.sn }}"
+            os_type: "{{ item.os_type }}"
+            os_ver: "{{ item.os_ver }}"
+            device blueprint: "{{ item.device_blueprint }}"
+            patch: "{{ item.patch }}"
+            desc: "{{ item.desc }}"
+            mr: "{{ item.mr }}"
+          flags:
+            - none
+            - log_dev
+            - create_task
+    loop: "{{ csv_content.list }}"
+
+
+
