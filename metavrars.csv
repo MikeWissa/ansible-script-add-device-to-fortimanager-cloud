@@ -1,0 +1,3 @@
+﻿Item,firewall,vdom,variablename,variablevalue
+1,FW1-NAME,root,branch_id,5
+2,FW2-NAME,root,branch_id,6
