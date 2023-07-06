@@ -24,9 +24,11 @@ ansible-galaxy collection install --upgrade fortinet.fortimanager
 This is used to connect to fortimanager cloud
 ### hosts file example
 [fortimanagers]
+
 fortimanager01 ansible_host=your-fortimanager-url-region.fortimanager.forticloud.com FORTICLOUD_APIID='API user'  FORTICLOUD_PASSWD='yourapi_password'
 
 [fortimanagers:vars]
+
 ansible_network_os=fortinet.fortimanager.fortimanager
 
 ## Update device-list.csv
