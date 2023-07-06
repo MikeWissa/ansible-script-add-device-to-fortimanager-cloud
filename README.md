@@ -23,6 +23,11 @@ ansible-galaxy collection install --upgrade fortinet.fortimanager
 ## Create a hosts inventory file to use in your ansible script 
 This is used to connect to fortimanager cloud
 ### hosts file example
+[fortimanagers]
+fortimanager01 ansible_host=your-fortimanager-url-region.fortimanager.forticloud.com FORTICLOUD_APIID='API user'  FORTICLOUD_PASSWD='yourapi_password'
+
+[fortimanagers:vars]
+ansible_network_os=fortinet.fortimanager.fortimanager
 
 ## Update device-list.csv
 You will need to have pre-created a device blueprint.
