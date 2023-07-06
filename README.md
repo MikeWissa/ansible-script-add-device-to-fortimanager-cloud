@@ -20,5 +20,18 @@ It asks for a password to download credential file, download and unzip the file.
 ## Install the ansible collection
 ansible-galaxy collection install --upgrade fortinet.fortimanager
 
-## Create a hosts inventory file to use in your ansible script
-### example is provided
+## Create a hosts inventory file to use in your ansible script 
+This is used to connect to fortimanager cloud
+### hosts file example
+
+## Update device-list.csv
+You will need to have pre-created a device blueprint.
+You will also need to specify your device serial number.
+Other information can be provided like group, which is not in that script.
+
+## Update metavariables
+metavars.csv contains the variable ansible will be parse to create the dynamic mapping
+The metavariables would need to be precreated
+
+## Run the ansible playbook
+ansible-playbook -i hosts fmgrcloud.yml
